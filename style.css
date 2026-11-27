@@ -17,7 +17,8 @@ a { color: var(--accent); text-underline-offset: 4px; }
 a:hover { color: var(--brand); }
 a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--brand); outline-offset: 4px; }
 header { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 1rem; min-height: 64px; padding: .8rem 32px; border-bottom: 1px solid var(--line); background: var(--paper); }
-.brand { color: var(--ink); font-weight: 650; text-decoration: none; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 650; text-decoration: none; }
+.brand-icon { display: block; width: 32px; height: 32px; flex: none; object-fit: contain; }
 .header-links { display: flex; align-items: center; flex-wrap: wrap; gap: 1.5rem; font-size: .85rem; }
 .header-links a { color: var(--ink); text-decoration: none; }
 .header-links a:hover { color: var(--accent); }

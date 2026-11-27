@@ -1,0 +1,11 @@
+memu-icon.png
+
+Source: memU documentation site (MEM-7), unchanged copy.
+Repository: https://github.com/XnneHangLab-Mirror/memU
+Source revision: 3d3f2fae5bfa1888d7b9e6067ae0170689b8cd6a
+Source path: docs/site/public/memu-icon.png
+Source link: https://github.com/XnneHangLab-Mirror/memU/blob/3d3f2fae5bfa1888d7b9e6067ae0170689b8cd6a/docs/site/public/memu-icon.png
+SHA-256: 854d1c2b9152504663eb4f13778ab9e4e83287c88eb97e5de76f8863290cea1a
+
+The source repository's LICENSE.txt is included verbatim as memu-LICENSE.txt.
+Copyright 2024 MemU Team
