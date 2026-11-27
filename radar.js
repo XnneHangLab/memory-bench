@@ -18,16 +18,16 @@ function point(index, radius) {
   return [300 + radius * Math.cos(angle), 235 + radius * Math.sin(angle)];
 }
 for (let level = 1; level <= 4; level++) {
-  element("polygon", {points: axes.map((_, i) => point(i, level * 37).join(",")).join(" "), fill: "none", stroke: "#d5e2e5"});
-  element("text", {x: 307, y: 235 - level * 37 + 13, fill: "#536273", "font-size": 12}, level);
+  element("polygon", {points: axes.map((_, i) => point(i, level * 37).join(",")).join(" "), fill: "none", stroke: "var(--line)"});
+  element("text", {x: 307, y: 235 - level * 37 + 13, fill: "var(--muted)", "font-size": 12}, level);
 }
 axes.forEach((name, i) => {
   const [x, y] = point(i, 148);
-  element("line", {x1: 300, y1: 235, x2: x, y2: y, stroke: "#d5e2e5"});
+  element("line", {x1: 300, y1: 235, x2: x, y2: y, stroke: "var(--line)"});
   const [tx, ty] = point(i, 190);
-  element("text", {x: tx, y: ty, "text-anchor": "middle", "dominant-baseline": "middle", fill: "#202b38", "font-size": 17}, name);
+  element("text", {x: tx, y: ty, "text-anchor": "middle", "dominant-baseline": "middle", fill: "var(--ink)", "font-size": 17}, name);
 });
-const shape = element("polygon", {fill: "#087e8228", stroke: "#087e82", "stroke-width": 2.5});
+const shape = element("polygon", {fill: "var(--chart-fill)", stroke: "var(--accent)", "stroke-width": 2.5});
 const inputs = axes.map((name, i) => {
   const label = document.createElement("label");
   const output = document.createElement("output");
