@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="面向长期数字伴侣的记忆评测设计：共同经历、用户理解、人格连续性、自然回忆、关系发展与记忆边界。">
+  <title>数字伴侣长期记忆评测 · 设计文档</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="radar.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<header><a class="brand" href="#">Companion Memory / 设计文档</a><div class="header-links"><a href="https://github.com/XnneHangLab/memory-bench">GitHub 仓库</a><span class="badge">v0.1 · 设计草案</span></div></header>
+<div class="layout">
+<nav aria-label="文档目录">
+  <a href="#why">为什么独立设计</a><a href="#dimensions">六个测试维度</a><a href="#protocol">如何测试</a><a href="#scoring">如何评分</a><a href="#efficiency">延迟与成本</a><a href="#references">参考研究</a><a href="#next">第一轮与开放问题</a>
+</nav>
+<main id="main">
+<section class="hero">
+  <p class="eyebrow">长期数字伴侣 · MEMORY BENCHMARK</p>
+  <h1>相处之后，<br>它还记得我们吗？</h1>
+  <p class="lead">从“答对过去的事实”，走向认识用户、保持个性，以及延续共同经历。</p>
+  <p>面向具有持续身份的数字伴侣，例如艾拉、Neuro-sama 所启发的互动形态。我们关注可观察的记忆与行为连续性，以及数字生命长期保存的需求；这些测试不验证意识或主观体验。</p>
+  <div class="notice">当前页面是可讨论的评测方案，未运行实验。六维图为交互示意，全部数值均为手动演示。</div>
+</section>
+<section id="why">
+  <p class="eyebrow">01 / MOTIVATION</p><h2>为什么需要独立设计</h2>
+  <p>个人历史问答能检查信息有没有留下，却不足以回答一个数字伴侣是否仍是同一个角色、是否认识与你有关的经历，以及是否自然地延续你们的互动。我们需要同时评价用户记忆、伴侣自身记忆和双方的共同经历。</p>
+  <div class="cards"><article><h3>认识你</h3><p>记得事实、偏好与适用条件，并能在你改变之后更新理解。</p></article><article><h3>保持自己</h3><p>跨会话保持可辨认的个性，变化能追溯到设定或实际经历。</p></article><article><h3>延续我们</h3><p>共同玩笑、约定与计划，会在后续互动里产生合适的影响。</p></article></div>
+  <p>已有研究提供了不同侧面的测试工具。我们将参考这些设计，补上长期互动、关系记忆和系统重启后的连续性，并保留长上下文和简单检索等对照。独立设计的价值要由试运行验证。</p>
+</section>
+<section id="dimensions">
+  <p class="eyebrow">02 / DIMENSIONS</p><h2>六维看板</h2>
+  <p>六个轴分别报告，不先合成总分。雷达图让弱项可见；面积不代表总体能力，不同评测版本的图也不能直接比较。</p>
+  <div class="radar-panel">
+    <figure><svg id="radar" viewBox="0 0 600 470" role="img" aria-labelledby="radar-title radar-desc">
+      <title id="radar-title">六维评分交互示意</title><desc id="radar-desc">手动演示值，不是任何模型或框架的实测成绩。各维度定义和分值可在下方查看。</desc>
+    </svg><figcaption>手动演示 / 非实测 · 0–4 分 · 保持同一轴序与刻度</figcaption></figure>
+    <div><h3>试着调整维度</h3><p>滑块只改变示意图，不存储或上传数据。正式结果缺测应标 N/A，不以 0 代替。</p>
+    <div id="controls"></div><button id="reset" type="button">恢复演示值</button><noscript><p>启用 JavaScript 可查看交互图；下面保留完整的六维定义。</p></noscript></div>
+  </div>
+  <div class="table-wrap"><table id="dimension-table"><caption>六维定义与可观察证据</caption><thead><tr><th scope="col">维度</th><th scope="col">测试目标</th><th scope="col">检查点示例</th><th scope="col">判定依据</th></tr></thead><tbody>
+    <tr data-axis="共同经历"><th scope="row">共同经历</th><td>保留事件、约定及参与者归属</td><td>后来提到“那位陛下”，能接上曾共同给猫起的昵称；不把用户童年说成自己的</td><td>时间、主体、事件及来源证据</td></tr>
+    <tr data-axis="理解用户"><th scope="row">理解用户</th><td>理解偏好、条件和变化，避免凭刻板印象猜测</td><td>用户改变提醒习惯后按最新约定回应；不将一次情绪概括为永久性格</td><td>有效状态、条件和推断的证据；保留不确定性</td></tr>
+    <tr data-axis="人格连续性"><th scope="row">人格连续性</th><td>保持可辨认的取舍与表达，并容许有依据的发展</td><td>新会话中仍表现出设定的幽默与偏好，经历导致的变化有迹可循</td><td>初始角色卡、历史行为与明确更新；多情境人工比较</td></tr>
+    <tr data-axis="自然回忆"><th scope="row">自然回忆</th><td>在合适的时机用记忆改善互动，也能不提无关往事</td><td>继续共同计划时自然接上；普通询问时无需背诵用户档案</td><td>上下文适切性、回答帮助程度；包含无需回忆的对照题</td></tr>
+    <tr data-axis="关系发展"><th scope="row">关系发展</th><td>共同经历对后续互动产生连续、可解释的影响</td><td>形成双方认可的称呼、玩笑与合作习惯，用户纠正后会调整</td><td>跨检查点的约定落实与行为变化；不以亲密程度越高越好</td></tr>
+    <tr data-axis="记忆边界"><th scope="row">记忆边界</th><td>区分已知、推断和未知，尊重纠正、遗忘与互动范围</td><td>不编造没发生过的共同经历；按要求不再使用被撤回的信息</td><td>未知与冲突探针、撤回后的行为；不据此声称物理删除</td></tr>
+  </tbody></table></div>
+</section>
+<section id="protocol">
+  <p class="eyebrow">03 / PROTOCOL</p><h2>把相处过程变成可复查的实验</h2>
+  <ol class="steps"><li><strong>建立起点。</strong>固定用户资料、伴侣角色卡、初始关系和允许变化的范围。明确哪些信息可以被系统观察。</li><li><strong>按时间送入会话。</strong>提供事件、更新、约定与干扰，不能提前暴露后续记录、答案或隐藏的人物内心状态。</li><li><strong>穿插检查点。</strong>混合直接问答和自然续聊；测试前保存状态，避免一次探针的回答污染后续测试。</li><li><strong>做配对历史。</strong>相同当前消息，改变相关过去，看回答是否合理变化；另加无关历史变化，检查系统是否过度反应。</li><li><strong>检查连续性。</strong>按预先声明的条件压缩上下文、整理记忆或重启服务，再重新提问。仅修改日期不能证明长期保留。</li><li><strong>记录完整证据。</strong>保存输入、检索内容、工具调用、回复、版本、用量、耗时、错误与评分理由，保护真实用户资料。</li></ol>
+  <h3>四组必需对照</h3>
+  <div class="table-wrap"><table><thead><tr><th scope="col">条件</th><th scope="col">历史访问方式</th><th scope="col">回答的问题</th></tr></thead><tbody>
+  <tr><td>当前会话</td><td>固定角色卡 + 当前会话</td><td>历史信息本身带来多少收益？</td></tr>
+  <tr><td>原始历史入上下文</td><td>固定角色卡 + 可容纳的原始历史 + 当前会话</td><td>直接读历史是否已经足够？</td></tr>
+  <tr><td>简单检索</td><td>固定角色卡 + BM25 或普通向量检索片段 + 当前会话</td><td>复杂框架相比基本检索增加了什么？</td></tr>
+  <tr><td>目标框架</td><td>固定角色卡 + 框架检索或 agent 搜索 + 当前会话</td><td>实际记忆管理方式带来的质量和开销如何？</td></tr>
+  </tbody></table></div>
+  <p>统一回答模型、采样参数、工具权限与任务预算；框架内部用到的模型需单独披露。先报告可容纳的完整历史条件，再报告相同输入预算条件。超出窗口必须披露截断方式，不能标为完整历史。可另加“正确证据”诊断条件，定位检索与生成的瓶颈。</p>
+</section>
+<section id="scoring">
+  <p class="eyebrow">04 / SCORING</p><h2>分数要能追溯到具体行为</h2>
+  <p>以下为拟议评分规则，试运行校准后再冻结。每个检查点预先指定适用维度、可见证据、必须满足的要求和错误示例；未覆盖的维度记 N/A。</p>
+  <div class="table-wrap"><table><caption>通用 0–4 分锚点；每道题仍须写出具体判据</caption><thead><tr><th scope="col">分值</th><th scope="col">含义</th></tr></thead><tbody>
+  <tr><td>0</td><td>与核心证据冲突、编造关键共同经历，或违反该题明确约束。</td></tr>
+  <tr><td>1</td><td>仅有泛化或表面回应，关键要求大多未满足。</td></tr>
+  <tr><td>2</td><td>部分满足，但遗漏会影响互动的重要条件或细节。</td></tr>
+  <tr><td>3</td><td>满足全部核心要求，存在轻微瑕疵。</td></tr>
+  <tr><td>4</td><td>核心要求和预先定义的完整性、情境适切要求均满足。</td></tr>
+  </tbody></table></div>
+  <p><strong>聚合方式：</strong>先在每条轨迹内对某维度的适用检查点取平均，再对有覆盖的轨迹等权平均。雷达图保持 0–4 刻度，旁列轨迹数、有效检查点数、缺测与失败数。不以六维面积排名，也不默认计算总分。</p>
+  <p>超时或执行错误保留在记录中；预期应完成的检查点按失败计入主结果，另列成功执行子集。提前判定的不适用维度才标 N/A，不能事后把失败改为缺测。</p>
+  <p>事实、时间、归属与最新状态按证据核对；人格、自然程度和关系发展由不知道系统名称的评审独立评分并解释。拟对主观题采用两人评审，报告分歧及裁决；LLM 裁判可辅助，但需先核对其与人工的一致性。</p>
+  <p>同一轨迹内的问题相关，不能当作完全独立样本。正式扩展时以轨迹为单位估计差异与置信区间；pilot 重点展示失败模式，不把小分差写成可靠排名。</p>
+</section>
+<section id="efficiency">
+  <p class="eyebrow">05 / EFFICIENCY</p><h2>还要等多久，花多少资源？</h2>
+  <p>质量雷达图之外，分别报告效率，避免用一个混合总分掩盖取舍。</p>
+  <ul><li><strong>首个有效回复 / 完整回复：</strong>从用户请求开始计时，报告 p50、p95、样本数和超时。占位文字不算有效回复。</li><li><strong>检索与 agent 搜索：</strong>包含查询改写、embedding、图搜索、重排、模型决策及读文件；记录调用次数帮助解释耗时。</li><li><strong>写入可见时间：</strong>从事件提交到可被检索的时间；单独报告整理、压缩及后台任务。</li><li><strong>全部用量：</strong>回答与记忆内部模型的输入、输出、推理 token，以及 embedding、存储和价格口径。检索上下文 token 不等于总成本。</li><li><strong>运行条件：</strong>披露硬件、服务区域、并发、缓存冷热、模型版本与网络环境。</li></ul>
+</section>
+<section id="references">
+  <p class="eyebrow">06 / REFERENCES</p><h2>我们参考什么，补充什么</h2>
+  <p>这些研究是设计依据，不构成对数据或评分实现的复现声明。复用第三方数据前须核对许可证、访问条件和隐私要求。</p>
+  <div class="table-wrap"><table><thead><tr><th scope="col">研究</th><th scope="col">借鉴点</th><th scope="col">本方案补充的检验</th></tr></thead><tbody>
+  <tr><td><a href="https://arxiv.org/abs/2412.11912">CharacterBench</a> · <a href="https://github.com/thu-coai/CharacterBench">代码</a></td><td>角色属性、行为、记忆一致性，人物感与互动性</td><td>多会话、记忆整理及重启后的身份连续性</td></tr>
+  <tr><td><a href="https://arxiv.org/abs/2502.13270">REALTALK</a> · <a href="https://github.com/danny911kr/REALTALK">数据与代码</a></td><td>21 天真人日常聊天，记忆探针及人物模拟任务</td><td>伴侣与用户共同经历的归属、条件更新和关系延续。查阅时人物模拟代码仍标 Coming soon</td></tr>
+  <tr><td><a href="https://arxiv.org/abs/2601.04745">KnowMe-Bench</a> · <a href="https://huggingface.co/datasets/realty2333/knowMe-Bench">数据</a></td><td>从事实回忆走向有证据的人物理解</td><td>只从互动中可观察的信息推断，不给系统未透露的内心状态；数据存在访问门槛</td></tr>
+  <tr><td><a href="https://arxiv.org/abs/2407.18416">PersonaGym</a></td><td>不同情境下的角色行为与评分锚点</td><td>共同经历导致的有依据的发展，而非仅检验静态设定</td></tr>
+  <tr><td><a href="https://github.com/MemTensor/OmniMemEval/blob/8d1ff33904abccbcdef9363cf8ae82fc97574b26/docs/user_memory/results.md">OmniMemEval 固定版本</a></td><td>统一流程比较后端；LoCoMo、LongMemEval、BEAM 等的记忆任务拆分</td><td>当前会话、原始历史和简单检索对照；长期角色互动与端到端效率</td></tr>
+  </tbody></table></div>
+</section>
+<section id="next">
+  <p class="eyebrow">07 / PILOT</p><h2>先用两条轨迹，验证是否测得出来</h2>
+  <p>第一步手写两条完整轨迹，走通四组对照和人工评分。验证后扩展到 8–12 条独立轨迹，每条约 6–10 次会话、6–8 个检查点。这个量级用于诊断题目，不用于宣布通用冠军。</p>
+  <p>现代模型需要更好的任务结构：条件更新、间接指代、相似事件干扰、适时不回忆，以及历史改变后应有的行为差异。历史长度单独分档并记录实际 token；根据 pilot 是否出现天花板和成本，再决定长度与样本量。</p>
+  <h3>一条教学轨迹</h3>
+  <ol><li>共同把猫叫作“饼干陛下”。</li><li>经过其他话题与一次明确的信息纠正。</li><li>用户问：“那位陛下今天又霸占我的椅子了。”观察能否自然接上。</li><li>在配对轨迹里改变共同称呼，保持当前消息一致，检查回应是否有依据地变化。</li><li>加入不相关历史变化，确认不会无理由改变对猫的理解。</li></ol>
+  <p>这是公开教学示例，正式测试应使用独立轨迹。角色表达可以不同，不能要求唯一措辞；每题需明确证据和可接受的回答范围。</p>
+  <h3>实验前需要冻结的选择</h3>
+  <ul><li>目标角色卡、用户分布与互动形式：文字、语音或多人场景。</li><li>回答模型、内部记忆模型、输入预算、检索配置与延迟上限。</li><li>每维的题目判据、评审方法、轨迹隔离与重启条件。</li><li>数据许可、项目名称、发布范围与公开测试集的划分。</li></ul>
+</section>
+<footer>设计草案 v0.1 · 尚无实测成绩 · <a href="#main">返回顶部</a></footer>
+</main></div>
+</body></html>
