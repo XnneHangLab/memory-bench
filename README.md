@@ -20,6 +20,7 @@ python -m http.server 8000 --directory docs
 
 - `docs/index.html`：动机、六维定义、试验协议、评分、参考研究与开放问题。
 - `docs/radar.js`：六维可交互示意图；数值是人工演示，不是实验结果。
+- `docs/assets/memu-icon.png`：复用 memU 文档站图标，用于页头和 favicon；[来源说明](docs/assets/NOTICE.txt)与[原许可文件](docs/assets/memu-LICENSE.txt)随附。
 - `scripts/check_site.py`：链接、图表维度与文档基本完整性检查。
 
 ```sh
