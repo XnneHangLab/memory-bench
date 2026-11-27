@@ -7,6 +7,7 @@ on:
       - "docs/**"
       - "scripts/check_site.py"
       - "scripts/check_radar.cjs"
+      - "scripts/check_theme.cjs"
       - ".github/workflows/docs-deploy.yml"
   workflow_dispatch:
 
@@ -39,6 +40,8 @@ jobs:
           python scripts/check_site.py
           node --check docs/radar.js
           node scripts/check_radar.cjs
+          node --check docs/theme.js
+          node scripts/check_theme.cjs
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

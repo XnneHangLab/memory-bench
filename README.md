@@ -26,6 +26,7 @@ python -m http.server 8000 --directory docs
 python scripts/check_site.py
 node --check docs/radar.js
 node scripts/check_radar.cjs
+node scripts/check_theme.cjs
 ```
 
 当前为 **v0.1 设计草案**，尚无运行器、正式测试集或实测排行榜。图表用于解释维度，不能解释为系统成绩。实际实验前应冻结数据版本、评分规则与运行配置。
@@ -34,4 +35,4 @@ node scripts/check_radar.cjs
 
 GitHub Pages 从 `gh-pages` 分支根目录提供站点。主分支 `main` 的文档、检查脚本或部署工作流更新后，`.github/workflows/docs-deploy.yml` 会先运行离线检查，再将 `docs/` 发布到 `gh-pages`；也支持在 Actions 中手动触发。
 
-部署参考组织站点 [XnneHangLab/XnneHangLab](https://github.com/XnneHangLab/XnneHangLab) 的 `peaceiris/actions-gh-pages` 工作流。导航组织参考 memU 文档站，视觉风格参考 [yutto-uiya](https://github.com/XnneHangLab/yutto-uiya) 的 VitePress 默认主题：蓝紫色主色、浅灰卡片、分组侧栏和圆角入口按钮，并支持跟随系统切换明暗配色。本站使用静态文件，无需构建。资源使用相对路径，适配 `/memory-bench/` 项目路径。
+部署参考组织站点 [XnneHangLab/XnneHangLab](https://github.com/XnneHangLab/XnneHangLab) 的 `peaceiris/actions-gh-pages` 工作流。导航组织参考 memU 文档站，视觉风格参考 [yutto-uiya](https://github.com/XnneHangLab/yutto-uiya) 的 VitePress 默认主题：蓝紫色主色、浅灰卡片、分组侧栏和圆角入口按钮，并提供页头明暗切换按钮：首次访问默认浅色，之后记住手动选择。本站使用静态文件，无需构建。资源使用相对路径，适配 `/memory-bench/` 项目路径。
