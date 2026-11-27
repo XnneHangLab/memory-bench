@@ -2,7 +2,9 @@
 
 设计草案与文档站。研究长期数字伴侣的共同经历、用户理解、人格连续性、自然回忆、关系发展与记忆边界。
 
-仓库：https://github.com/XnneHangLab/memory-bench （初始为私有仓库）。
+仓库：https://github.com/XnneHangLab/memory-bench
+
+文档站：https://xnnehanglab.github.io/memory-bench/
 
 ## 查看文档
 
@@ -28,4 +30,8 @@ node scripts/check_radar.cjs
 
 当前为 **v0.1 设计草案**，尚无运行器、正式测试集或实测排行榜。图表用于解释维度，不能解释为系统成绩。实际实验前应冻结数据版本、评分规则与运行配置。
 
-如需 GitHub Pages，可将部署来源设置为本仓库分支的 `/docs`；仓库可见性与组织套餐可能影响 Pages 可用性。当前不包含自动发布流程。
+## 自动部署
+
+GitHub Pages 从 `gh-pages` 分支根目录提供站点。主分支 `main` 的文档、检查脚本或部署工作流更新后，`.github/workflows/docs-deploy.yml` 会先运行离线检查，再将 `docs/` 发布到 `gh-pages`；也支持在 Actions 中手动触发。
+
+部署参考组织站点 [XnneHangLab/XnneHangLab](https://github.com/XnneHangLab/XnneHangLab) 的 `peaceiris/actions-gh-pages` 工作流。导航组织参考 memU 文档站；本站使用静态文件，无需构建。资源使用相对路径，适配 `/memory-bench/` 项目路径。
