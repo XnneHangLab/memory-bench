@@ -1,10 +1,12 @@
 "use strict";
 
-// These values illustrate the axes only; no benchmark has been run.
+// These values illustrate the axes and failure shapes only; no benchmark has been run.
 const axes = [...document.querySelectorAll("[data-axis]")].map(row => row.dataset.axis);
 const demo = [2, 2, 2, 2, 2, 2];
 const svg = document.getElementById("radar");
 const controls = document.getElementById("controls");
+const presetIds = ["preset-rag", "preset-longctx", "preset-companion"];
+const presetButtons = presetIds.map(id => document.getElementById(id)).filter(Boolean);
 const ns = "http://www.w3.org/2000/svg";
 function element(tag, attrs, text) {
   const node = document.createElementNS(ns, tag);
@@ -28,6 +30,9 @@ axes.forEach((name, i) => {
   element("text", {x: tx, y: ty, "text-anchor": "middle", "dominant-baseline": "middle", fill: "var(--ink)", "font-size": 17}, name);
 });
 const shape = element("polygon", {fill: "var(--chart-fill)", stroke: "var(--accent)", "stroke-width": 2.5});
+function clearPresets(activeBtn) {
+  presetButtons.forEach(btn => btn.setAttribute("aria-pressed", String(btn === activeBtn)));
+}
 const inputs = axes.map((name, i) => {
   const label = document.createElement("label");
   const output = document.createElement("output");
@@ -42,7 +47,10 @@ const inputs = axes.map((name, i) => {
   output.htmlFor = input.id;
   label.append(document.createTextNode(name), output, input);
   controls.append(label);
-  input.addEventListener("input", draw);
+  input.addEventListener("input", () => {
+    clearPresets(null);
+    draw();
+  });
   return {input, output};
 });
 function draw() {
@@ -52,8 +60,19 @@ function draw() {
     return point(i, Number(input.value) * 37).join(",");
   }).join(" "));
 }
+presetButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const values = (btn.dataset.preset || "").split(",").map(Number);
+    if (values.length === axes.length && values.every(Number.isFinite)) {
+      inputs.forEach(({input}, i) => { input.value = String(values[i]); });
+      clearPresets(btn);
+      draw();
+    }
+  });
+});
 document.getElementById("reset").addEventListener("click", () => {
   inputs.forEach(({input}, i) => { input.value = String(demo[i]); });
+  clearPresets(null);
   draw();
 });
 draw();
