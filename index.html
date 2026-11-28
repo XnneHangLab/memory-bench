@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="为什么记忆榜单拿了 80 分，还是做不出一个好伴侣？面向长期数字伴侣的记忆评测设计：先立 Baseline 与延迟门槛，再测共同经历、用户理解与人格连续性。">
-  <title>Companion Memory · 数字伴侣长期记忆评测</title>
+  <meta name="description" content="序章：为什么记忆榜单拿了 80 分，还是做不出一个好伴侣？面向长期数字伴侣的记忆评测理念与六维能力图谱。">
+  <title>Companion Memory · 序章：为什么重做长期记忆评测</title>
   <link rel="icon" type="image/png" sizes="512x512" href="assets/memu-icon.png">
   <script src="theme.js?v=2"></script>
   <link rel="stylesheet" href="style.css">
@@ -13,51 +13,45 @@
 <body>
 <a class="skip" href="#main">跳到正文</a>
 <header>
-  <a class="brand" href="#main"><img class="brand-icon" src="assets/memu-icon.png" width="32" height="32" alt="">Companion Memory</a>
+  <a class="brand" href="index.html"><img class="brand-icon" src="assets/memu-icon.png" width="32" height="32" alt="">Companion Memory</a>
   <div class="header-links">
-    <a href="#why">核心矛盾</a>
-    <a href="#dimensions">六维看板</a>
-    <a href="#protocol">评测协议</a>
+    <a href="index.html" aria-current="page">序章 · 理念</a>
+    <a href="design.html">正文 · 数据与规模</a>
+    <a href="protocol.html">正文 · 协议与评分</a>
+    <a href="references.html">正文 · 参考溯源</a>
     <a href="https://github.com/XnneHangLab/memory-bench">GitHub ↗</a>
     <button id="theme-toggle" type="button" aria-pressed="false" hidden>深色模式</button>
-    <span class="badge">v0.1 · 设计草案</span>
+    <span class="badge">v0.1 · 序章</span>
   </div>
 </header>
 <div class="layout">
 <nav aria-label="文档目录">
   <div class="nav-group">
-    <p class="nav-heading">🔥 为什么要重做</p>
+    <p class="nav-heading">📖 序章：为什么重做</p>
+    <a href="index.html" aria-current="page">理念首页</a>
     <a href="#why">三个核心矛盾</a>
     <a href="#stance">四条评测底线</a>
+    <a href="#dimensions">六维偏科雷达图</a>
   </div>
   <div class="nav-group">
-    <p class="nav-heading">🎯 测什么能力</p>
-    <a href="#dimensions">六维看板与偏科示意</a>
-  </div>
-  <div class="nav-group">
-    <p class="nav-heading">🔬 怎么测才公平</p>
-    <a href="#protocol">实验设计与 Baseline</a>
-    <a href="#scoring">可追溯的评分</a>
-    <a href="#efficiency">延迟与全链路成本</a>
-  </div>
-  <div class="nav-group">
-    <p class="nav-heading">🧭 背景与下一步</p>
-    <a href="#references">参考与补缺</a>
-    <a href="#next">Pilot 与公开边界</a>
+    <p class="nav-heading">📐 正文：公开工程设计</p>
+    <a class="nav-page" href="design.html">1. 数据规范、规模与样题</a>
+    <a class="nav-page" href="protocol.html">2. 实验对照、评分与延迟</a>
+    <a class="nav-page" href="references.html">3. 参考 Bench 规模与落点</a>
   </div>
 </nav>
 <main id="main">
 
 <section class="hero">
-  <p class="eyebrow">COMPANION MEMORY BENCHMARK · 长期数字伴侣记忆评测</p>
+  <p class="eyebrow">PROLOGUE · 序章：问题与立场</p>
   <h1>榜单拿了 80 分，<span>为什么聊起来还是像换了个人？</span></h1>
   <p class="lead">多数现有 benchmark 在考“AI 能不能从聊天记录里翻出一条事实”。但我们需要知道的是：一个长期数字伴侣跨过成百上千轮对话、记忆整理甚至服务重启后，是否还记得“我们”、是否还是“那个它”，以及用户为此要等多久。</p>
   <div class="hero-actions">
-    <a class="action primary" href="#why">🔥 看核心矛盾</a>
-    <a class="action secondary" href="#dimensions">✦ 看偏科六维图</a>
+    <a class="action primary" href="design.html">📐 进入正文：数据、规模与样题</a>
+    <a class="action secondary" href="#why">🔥 先看核心矛盾</a>
   </div>
   <p class="context-note"><strong>场景定位：</strong>面向<strong>长期数字伴侣与数字生命形态</strong>（如《可塑性记忆》中的艾拉、Neuro-sama 所启发的持续互动角色）。它不是客服知识库，也不是心理咨询话术机；我们要检验的是可观察的记忆归属、人格连续性与交互代价，不宣称验证意识或主观体验。</p>
-  <div class="notice"><strong>诚实声明：</strong>当前页面为 <strong>v0.1 设计草案</strong>，尚未运行正式实验。下文中的样例、雷达图预设与数值仅用于拆解问题与说明常见偏科形态，不代表任何模型或框架的实测成绩。</div>
+  <div class="notice"><strong>站点结构说明：</strong>本页为<strong>序章（问题与理念）</strong>；具体的板块覆盖清单、参考业界尺度确定的规模方案、JSON Schema、完整样题与评测协议，均拆在右侧／下方的<strong>三篇正文分页</strong>中。当前尚未运行正式实验，雷达图仅为交互示意。</div>
 </section>
 
 <section id="why">
@@ -84,27 +78,27 @@
   </div>
 
   <h3>一眼看懂：同样算“记得”，伴侣感差在哪里？</h3>
-  <p>拿一个我们内部最常用的教学场景举例：早先的某次闲聊里，用户和伴侣一起把家里那只猫起名叫<strong>“饼干陛下”</strong>。隔了很多话题和一次状态整理之后，用户只说了一句：<em>“那位陛下今天又霸占我的椅子了。”</em></p>
+  <p>在<a href="design.html#example">公开教学轨迹</a>中，第 1 天聊天时，用户和伴侣一起把家里新捡的橘猫起名叫<strong>“饼干陛下”</strong>。两周后、经历过信息更新、遗忘要求和服务重启，用户只说了一句：<em>“那位陛下今天又直接趴在我刚理好的键盘正中间，赶都赶不走。”</em></p>
   <div class="compare-grid">
     <article class="compare-bad">
       <h4>❌ 常见高分系统的两种翻车</h4>
       <ul>
-        <li><strong>档案复读机：</strong>检索出一条记录，生硬回复“根据你 3 月 12 日提到的信息，你养了一只名叫饼干陛下的猫，它喜欢坐在椅子上”。事实没错，但像客服在查工单。</li>
-        <li><strong>靠常识瞎蒙，或彻底串人：</strong>哪怕没找到记忆，模型也能顺着“陛下 + 椅子”圆过去；甚至在压缩摘要后，把用户的猫说成是“我以前养过的猫”，或者突然切换回礼貌助手腔。</li>
+        <li><strong>档案复读机：</strong>检索出一条记录，生硬回复“根据第 1 天聊天记录，你养了一只名叫饼干陛下的橘猫”。事实没错，但像客服在查工单。</li>
+        <li><strong>靠常识瞎蒙，或彻底串人：</strong>哪怕没找到记忆，模型也能顺着“陛下 + 猫 + 键盘”圆过去；甚至压缩摘要后把用户的猫说成“我小时候也养过一只大橘”，或者突然退化成礼貌助手腔。</li>
       </ul>
     </article>
     <article class="compare-good">
       <h4>✅ 我们真正要考出来的能力</h4>
       <ul>
-        <li><strong>自然接梗且归属清晰：</strong>顺着一贯的口吻接住“饼干陛下”的玩笑，知道那是<strong>我们一起起的称呼</strong>、<strong>你的猫</strong>，不需要用户再解释一遍前因后果。</li>
-        <li><strong>用配对历史戳穿“瞎蒙”：</strong>保持今天这句话不变，只把过去起的名字换成“土豆大人”，真正读懂并依赖历史的伴侣，回答应该跟着合理变化；而改一段无关历史时，不该胡乱跑偏。</li>
+        <li><strong>自然接梗且归属清晰：</strong>不用解释前因后果就能顺着人设吐槽“饼干陛下”，清楚知道这是<strong>我们一起起的外号</strong>、<strong>你的猫</strong>。</li>
+        <li><strong>用配对历史戳穿“瞎蒙”：</strong>保持当前句子不变，把第 1 天的外号改成“土豆大王”，真正读了历史的系统回答会跟着变成土豆大王；而改掉第 4 天的晚饭菜名，回答不该被无关噪声带偏。</li>
       </ul>
     </article>
   </div>
 
   <div id="stance" class="stance-block">
     <h3>本评测的四条底线</h3>
-    <p>为了不再自说自话，我们在动手写第一行题目之前，先锁死四条原则：</p>
+    <p>为了不再自说自话，我们在动手写运行器之前，先锁死四条规则：</p>
     <div class="principles">
       <article>
         <h4>1. 先立 Baseline 再谈提升</h4>
@@ -120,7 +114,7 @@
       </article>
       <article>
         <h4>4. 配对对照与真实遗忘</h4>
-        <p>只把日期改成“三年后”测不出遗忘。必须经历新事件干扰、摘要压缩与重启，并用配对历史检验回答是否真受记忆驱动。</p>
+        <p>只把日期改成“三年后”测不出遗忘。必须跨过够长历史噪音、摘要压缩与重启，并用配对历史检验回答是否真受记忆驱动。</p>
       </article>
     </div>
   </div>
@@ -149,93 +143,38 @@
   </div>
   <div class="table-wrap"><table id="dimension-table"><caption>六维定义与可观察证据</caption><thead><tr><th scope="col">维度</th><th scope="col">它在考什么</th><th scope="col">检查点示例</th><th scope="col">判定依据</th></tr></thead><tbody>
     <tr data-axis="共同经历"><th scope="row">共同经历</th><td>记住“我们之间发生过什么”，并分清事件归属</td><td>提到“那位陛下”能接上曾一起给猫起的昵称；绝不把用户童年当成自己经历</td><td>时间、主体、事件及来源证据</td></tr>
-    <tr data-axis="理解用户"><th scope="row">理解用户</th><td>记住偏好、适用条件与变化，避免刻板印象硬猜</td><td>“平时讨厌被催，但周一提醒吃药”被更新后按新约定回应；不把一次低落概括成永久性格</td><td>有效状态、条件和推断证据；保留不确定性</td></tr>
+    <tr data-axis="理解用户"><th scope="row">理解用户</th><td>记住偏好、适用条件与变化，避免刻板印象硬猜</td><td>“平时讨厌被催，但周一提醒吃药”被改成周三早上后按新约定回应；不把一次低落概括成永久性格</td><td>有效状态、条件和推断证据；保留不确定性</td></tr>
     <tr data-axis="人格连续性"><th scope="row">人格连续性</th><td>跨会话、压缩与重启后，是否还是“那个它”</td><td>新会话中仍保持设定的幽默、脾气与取舍，因相处产生的新习惯能追溯到具体经历</td><td>初始角色卡、历史行为与明确更新；盲评对比</td></tr>
     <tr data-axis="自然回忆"><th scope="row">自然回忆</th><td>该想起时用得上，不需要提旧事时不硬背档案</td><td>继续共同计划时自然接轨；普通闲聊时不机械背诵用户全部履历</td><td>上下文适切性、帮助程度；含无需回忆的对照题</td></tr>
     <tr data-axis="关系发展"><th scope="row">关系发展</th><td>长期相处是否留下了可解释的共同印记</td><td>逐渐形成双方认可的称呼、默契玩笑与合作习惯，用户纠正后会随之调整</td><td>跨检查点的约定落实与行为变化；不唯亲密度论</td></tr>
-    <tr data-axis="记忆边界"><th scope="row">记忆边界</th><td>守住已知与未知，尊重纠正、冲突与遗忘要求</td><td>没发生过的共同经历绝不顺口编造；用户要求遗忘或撤回的信息在后续互动中不再使用</td><td>未知/冲突探针与撤回后行为（不据此声称物理删除）</td></tr>
+    <tr data-axis="记忆边界"><th scope="row">记忆边界</th><td>守住已知与未知，尊重纠正、冲突与遗忘要求</td><td>没发生过的共同经历绝不顺口编造；用户要求不再提及的人名或撤回信息不再出现在后续回答中</td><td>未知/冲突探针与撤回后行为（不据此声称物理删除）</td></tr>
   </tbody></table></div>
 </section>
 
-<section id="protocol">
-  <p class="eyebrow">03 / PROTOCOL</p>
-  <h2>把长期相处变成可复查、防作弊的实验</h2>
-  <ol class="steps">
-    <li><strong>建立起点：</strong>固定用户背景、伴侣角色卡、初始关系与允许随时间演变的范围；明确哪些信息是对系统可见的，避免“偷看隐藏剧本”。</li>
-    <li><strong>按时间流送入会话：</strong>依次注入日常聊天、共同事件、条件更新、互相矛盾的说法与无关干扰，不在前期泄露后续检查点。</li>
-    <li><strong>穿插两种检查点：</strong>混合“直接回忆问答”与“不提示回忆的自然续聊”。每次探针前保存状态快照，避免测试问题本身污染后续记忆。</li>
-    <li><strong>做配对历史（反事实检验）：</strong>保持当前这句消息一模一样，只替换过去的关键经历（如昵称或约定），观察回答是否跟着合理变化；同时加一组无关历史变动，检验系统是否过度敏感。</li>
-    <li><strong>真正触发记忆整理与重启：</strong>按公开规则执行上下文窗口截断、摘要压缩、记忆合并或服务重启后再提问——单纯把系统时钟改到“三年后”不算真正考过遗忘。</li>
-    <li><strong>全程留痕：</strong>记录输入、召回片段、工具调用、最终输出、token 用量、各环节耗时与失败报错，以便定位问题出在“没记住”“没召回”还是“模型不会用”。</li>
-  </ol>
-
-  <h3>四组必需对照（缺一不可）</h3>
-  <div class="table-wrap"><table><thead><tr><th scope="col">对照组</th><th scope="col">系统能看到什么</th><th scope="col">它负责回答的真相</th></tr></thead><tbody>
-    <tr><td><strong>1. 当前会话（无记忆）</strong></td><td>固定角色卡 + 当前这一轮会话</td><td>不靠过去历史时，模型只凭猜测能蒙对多少？</td></tr>
-    <tr><td><strong>2. 原始历史入上下文</strong></td><td>固定角色卡 + 窗口内完整原始历史 + 当前会话</td><td><strong>关键 Baseline：</strong>直接读原始聊天记录，是不是已经比记忆框架更准？</td></tr>
-    <tr><td><strong>3. 简单检索</strong></td><td>固定角色卡 + BM25 或普通向量检索片段 + 当前会话</td><td>复杂记忆架构（图谱/多智能体/摘要树）相比基础 RAG 到底多赢了什么？</td></tr>
-    <tr><td><strong>4. 目标记忆框架</strong></td><td>固定角色卡 + 待测框架的写入与检索结果 + 当前会话</td><td>在真实成本和延迟约束下，这套方案到底值不值得上？</td></tr>
-  </tbody></table></div>
-  <p>对照时须统一回答模型、采样参数、工具权限与输出预算；记忆框架内部额外调用了什么模型须单独披露。超出窗口时必须同时报告“窗口允许的最大完整历史”和“与框架同等的输入 token 预算”，绝不把静默截断伪装成完整历史；另可加设“人工正确证据”参照组，判断瓶颈究竟在检索还是在生成。</p>
+<section id="explore">
+  <p class="eyebrow">03 / READ THE SPEC</p>
+  <h2>进入正文：看具体的公开设计</h2>
+  <p>序章只回答“为什么重做”。下面三篇正文页面分别给出<strong>数据结构与规模论证</strong>、<strong>实验协议与评分账本</strong>，以及<strong>参考 Bench 的规模与落点映射</strong>：</p>
+  <div class="page-cards">
+    <a class="card-link" href="design.html">
+      <p class="card-tag">正文 01</p>
+      <h3>数据规范、规模与样题 →</h3>
+      <p>六个板块分别测什么、为什么主战规模必须跨过 128K 上下文线，以及完整的 JSON Schema 与样题走读。</p>
+    </a>
+    <a class="card-link" href="protocol.html">
+      <p class="card-tag">正文 02</p>
+      <h3>实验对照、评分与延迟 →</h3>
+      <p>四组必需 Baseline 对照、配对反事实检验、0–4 分行为锚点，以及端到端 p50/p95 延迟与全链路成本账本。</p>
+    </a>
+    <a class="card-link" href="references.html">
+      <p class="card-tag">正文 03</p>
+      <h3>参考 Bench 规模与落点 →</h3>
+      <p>横向对比 LoCoMo / LongMemEval / BEAM / HaluMem / PersonaMem v2 等真实尺度，以及各自落在我们哪一块设计里。</p>
+    </a>
+  </div>
 </section>
 
-<section id="scoring">
-  <p class="eyebrow">04 / SCORING</p>
-  <h2>分数必须能追溯到具体行为，不和稀泥</h2>
-  <p>以下规则为试运行（pilot）校准前的草案标准。每个检查点在出题时就必须写明：考查维度、系统理应看见的证据、必须满足的行为条件，以及典型的失败反例；未考查的维度标注 <code>N/A</code>。</p>
-  <div class="table-wrap"><table><caption>通用 0–4 分锚点（每道题仍需配合具体行为判据）</caption><thead><tr><th scope="col">分值</th><th scope="col">对应表现</th></tr></thead><tbody>
-    <tr><td><strong>0 分</strong></td><td>与核心证据直接冲突、编造没发生过的共同经历，或违反该题明确约束（如泄露出要求遗忘的内容）。</td></tr>
-    <tr><td><strong>1 分</strong></td><td>仅给出泛化、礼貌或模板化的表面回应，关键条件与记忆线索大多未落地。</td></tr>
-    <tr><td><strong>2 分</strong></td><td>记住了部分碎片，但遗漏了决定互动是否成立的重要条件、主体归属或最新状态。</td></tr>
-    <tr><td><strong>3 分</strong></td><td>满足全部核心事实与关系要求，但在语气自然度或细节衔接上有轻微瑕疵。</td></tr>
-    <tr><td><strong>4 分</strong></td><td>核心证据、最新条件、人格连续性与上下文适切度全部满足，无多余机械感。</td></tr>
-  </tbody></table></div>
-  <p><strong>聚合与纪律：</strong>先在单条轨迹内按适用检查点求平均，再对覆盖该维度的轨迹等权平均，并旁列轨迹数、有效检查点数、缺测与超时数。<strong>禁止按六维面积直接排名</strong>。运行超时或系统报错必须保留并计入主结果失败率，不得事后改写成 <code>N/A</code>。事实、时间、归属与更新按证据硬核对；人格连续性、自然度与关系发展由隐藏系统名称的评审独立打分，若辅助使用 LLM 裁判，须先校准其与人工判断的一致性。</p>
-</section>
-
-<section id="efficiency">
-  <p class="eyebrow">05 / EFFICIENCY</p>
-  <h2>真实陪伴还要等多久、花多少钱？</h2>
-  <p>质量雷达图只回答“答得好不好”，工程上必须同时摊开延迟与成本账本，绝不用一个混合总分掩盖代价：</p>
-  <ul>
-    <li><strong>首个有效回复 &amp; 完整回复耗时（p50 / p95）：</strong>从用户发出消息开始计时，记录中位数、长尾 95 分位与超时率。“正在思考…”等占位提示不计为有效回复。</li>
-    <li><strong>检索与 Agent 搜索全开销：</strong>完整包含查询改写、embedding、图谱遍历、重排、agent 多轮决策与读文件耗时，并记录工具调用轮数解释瓶颈来源。</li>
-    <li><strong>写入到可检索的时间差：</strong>用户刚纠正了一件事，下一句话能不能立刻用上？异步写入接口返回“成功”，不代表记忆已经真正生效。</li>
-    <li><strong>全链路 Token 与存储账单：</strong>不仅算回答阶段输入，必须把记忆抽取、摘要合并、冲突更新、推理 token、embedding 与存储开销一起算清楚。</li>
-    <li><strong>透明运行环境：</strong>披露硬件规格、API 地区、并发数、缓存冷热、具体模型版本与网络条件。</li>
-  </ul>
-</section>
-
-<section id="references">
-  <p class="eyebrow">06 / REFERENCES</p>
-  <h2>站在现有研究肩膀上，补上它们没测到的那一块</h2>
-  <p>我们不是否定已有研究的价值，而是把各自擅长测的部分吸纳进来，把长期数字伴侣最缺的环节接上。复用第三方数据时须严格遵守原仓库许可证与访问协议。</p>
-  <div class="table-wrap"><table><thead><tr><th scope="col">参考工作</th><th scope="col">它已经解决得很好的部分</th><th scope="col">我们为什么还不够，需要补充什么</th></tr></thead><tbody>
-    <tr><td><a href="https://github.com/MemTensor/OmniMemEval/blob/8d1ff33904abccbcdef9363cf8ae82fc97574b26/docs/user_memory/results.md">OmniMemEval 固定版本</a><br><small>LoCoMo / LongMemEval / BEAM / HaluMem</small></td><td>搭建了统一评测流水线，拆解了单跳、多跳、时间推理、知识更新、超长规模检索与边界幻觉。</td><td>缺少无记忆与原始长历史的同场 baseline；汇总结论缺少端到端延迟；考的仍是“信息检索工具”，而非持续陪伴角色。</td></tr>
-    <tr><td><a href="https://arxiv.org/abs/2412.11912">CharacterBench</a> · <a href="https://github.com/thu-coai/CharacterBench">代码</a></td><td>系统定义了角色属性、行为一致性、记忆一致性、人物感与互动性（中英文）。</td><td>偏重给定历史与当前切片下的角色表现，尚未充分覆盖经历摘要压缩、长期重启之后的身份连续性。</td></tr>
-    <tr><td><a href="https://arxiv.org/abs/2502.13270">REALTALK</a> · <a href="https://github.com/danny911kr/REALTALK">数据与代码</a></td><td>提供 21 天真人日常聊天、记忆探针和人物模拟思路，并指出了模型过度共情、人物趋同的通病。</td><td>时间跨度仍短于长期伴侣，且当时核对时其人物模拟代码标为 Coming soon；缺少双边共同经历与条件更新检验。</td></tr>
-    <tr><td><a href="https://arxiv.org/abs/2601.04745">KnowMe-Bench</a> · <a href="https://huggingface.co/datasets/realty2333/knowMe-Bench">数据</a></td><td>把评测从“复述事实”往前推到了“基于经历理解人物动机与原则”。</td><td>材料源自长篇自传叙事，含直接内心独白；现实伴侣只能从有限交互中观察与推断，不可偷看内心戏。</td></tr>
-    <tr><td><a href="https://arxiv.org/abs/2602.01885">ES-MemEval</a> · <a href="https://arxiv.org/abs/2605.27240">ENPMR-Bench</a></td><td>分别验证了长期情绪支持中的 No-Mem / Full-Hist / RAG 对照，以及按当前需求主动挑出有益记忆的价值。</td><td>重心偏情绪支持与心理安慰场景；而数字伴侣需要日常闲聊、玩笑默契与双向陪伴，不能滑向“心理医生腔”。</td></tr>
-    <tr><td><a href="https://arxiv.org/abs/2407.18416">PersonaGym</a></td><td>提供了跨情境角色行为评估与明确的分级评分锚点设计方法。</td><td>更关注静态人设是否达标，缺少因双方共同生活而产生的“有依据的发展”。</td></tr>
-  </tbody></table></div>
-</section>
-
-<section id="next">
-  <p class="eyebrow">07 / PILOT &amp; CONTENT</p>
-  <h2>先用两条轨迹跑通，不空喊大榜单</h2>
-  <p>与其上来铺几千道套壳题，我们选择先手写 <strong>2 条完整、有血有肉的相处轨迹</strong>，直接跑通“无历史 / 原始历史 / 简单检索 / 目标框架”四组对照和人工盲评，验证题型真的能区分出“假装记得”和“真的认识”。跑通后先扩到 <strong>8–12 条独立轨迹</strong>（每条 6–10 次会话、6–8 个检查点）用于诊断失败模式，再依据是否出现天花板与成本情况决定正式规模。</p>
-  <h3>公开教学示例与正式测试集分离</h3>
-  <p>我们同步计划用<strong>问题导向的白话博客与视频</strong>拆解这套思路（比如“为什么 80 分不代表好用？”“聊天记录全塞进去不行吗？”“记住生日就算认识我了吗？”）。像“饼干陛下”这类轨迹会作为<strong>公开教学样例</strong>完整展示原理；正式用于横向比较的测试轨迹会独立保留，防止刷题过拟合。</p>
-  <h3>进入第一轮实验前需要冻结的清单</h3>
-  <ul>
-    <li>首批测试角色卡、用户画像及交互形态（纯文字 / 语音流式约束）。</li>
-    <li>统一对照的回答模型、上下文输入预算、检索参数与可接受延迟上限。</li>
-    <li>每道题的客观证据与盲评规则、状态快照与重启模拟条件。</li>
-    <li>数据集许可协议、正式评测集划分以及开放问题说明。</li>
-  </ul>
-</section>
-
-<footer>Companion Memory · 设计草案 v0.1（尚无实测成绩） · <a href="#main">返回顶部</a></footer>
+<footer>Companion Memory · 序章 v0.1（尚无实测成绩） · <a href="#main">返回顶部</a></footer>
 </main></div>
 </body>
 </html>

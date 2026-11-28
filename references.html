@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Companion Memory 正文 03：现有 10 套记忆与角色 Benchmark 的真实规模对比，以及每项参考机制在我们设计里的精确落点。">
+  <title>Companion Memory · 正文 03：参考 Bench 规模与落点</title>
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/memu-icon.png">
+  <script src="theme.js?v=2"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<header>
+  <a class="brand" href="index.html"><img class="brand-icon" src="assets/memu-icon.png" width="32" height="32" alt="">Companion Memory</a>
+  <div class="header-links">
+    <a href="index.html">序章 · 理念</a>
+    <a href="design.html">正文 · 数据与规模</a>
+    <a href="protocol.html">正文 · 协议与评分</a>
+    <a href="references.html" aria-current="page">正文 · 参考溯源</a>
+    <a href="https://github.com/XnneHangLab/memory-bench">GitHub ↗</a>
+    <button id="theme-toggle" type="button" aria-pressed="false" hidden>深色模式</button>
+    <span class="badge">v0.1 · 正文 03</span>
+  </div>
+</header>
+<div class="layout">
+<nav aria-label="文档目录">
+  <div class="nav-group">
+    <p class="nav-heading">📖 序章</p>
+    <a class="nav-page" href="index.html">理念与六维雷达图</a>
+  </div>
+  <div class="nav-group">
+    <p class="nav-heading">📐 其他正文</p>
+    <a class="nav-page" href="design.html">1. 数据规范、规模与样题</a>
+    <a class="nav-page" href="protocol.html">2. 实验对照、评分与延迟</a>
+  </div>
+  <div class="nav-group">
+    <p class="nav-heading">🧭 正文 03 · 参考溯源</p>
+    <a href="references.html" aria-current="page">本页总览</a>
+    <a href="#scale-ref">业界 Bench 真实规模参照</a>
+    <a href="#provenance">10 套 Bench 精确落点表</a>
+  </div>
+</nav>
+<main id="main">
+
+<section class="page-hero">
+  <p class="eyebrow">SPECIFICATION 03 / SCALE BENCHMARKS &amp; PROVENANCE</p>
+  <h1>参考了哪些 Bench，<span>分别落在哪一块？</span></h1>
+  <p class="lead">我们既对照现有基准的真实上下文尺度来防止“规模太小被裸模型吃掉”，也明确记录每一套参考研究具体化作了本设计里的哪个字段、探针或对照组。</p>
+</section>
+
+<section id="scale-ref">
+  <p class="eyebrow">01 / INDUSTRY SCALE REFERENCE</p>
+  <h2>现有 Memory Bench 真实规模参照</h2>
+  <p>以下是核对公开仓库（OmniMemEval 固定快照及原数据集说明）后整理出的规模坐标，也是我们定出 <code>Tier S (32K) / Tier M (160K) / Tier L (512K–1M)</code> 三档的直接依据：</p>
+  <div class="table-wrap"><table><thead><tr><th scope="col">基准名称</th><th scope="col">单条 / 每用户历史尺度</th><th scope="col">总样本与题量</th><th scope="col">对我们定规模的直接启发</th></tr></thead><tbody>
+    <tr><td><strong>LoCoMo</strong></td><td>平均约 27 个 session（共 10 段对话 / 272 sessions / 5,882 turns）</td><td>10 段对话 · 1,986 题（评测子集 1,540 题）</td><td>放在今天上下文窗口里容易被整段吞下，证明<strong>单靠 ~20K 量级已不足以充当唯一主战档</strong>。</td></tr>
+    <tr><td><strong>PersonaMem v2</strong></td><td>显式区分 <strong>32K</strong> 与 <strong>128K</strong> 两档历史（用无关话题做 padding）</td><td>200 个人设 · 5,000 道测试题</td><td>证明了<strong>“固定人设 + 用无关对话把长度拉到 128K”</strong>是行之有效的工程分档法。</td></tr>
+    <tr><td><strong>LongMemEval</strong></td><td><strong>S 版</strong>：~48 sessions / <strong>~115K tokens</strong><br><strong>M 版</strong>：~500 sessions / <strong>~1.5M tokens</strong></td><td>500 道问题</td><td>~115K 是逼近 128K 上下文边界的最低门槛；~1.5M 则彻底打穿百万窗口。</td></tr>
+    <tr><td><strong>HaluMem</strong></td><td><strong>Medium</strong>：~70 sessions / <strong>~160K tokens</strong><br><strong>Long</strong>：~120 sessions / <strong>~1M tokens</strong></td><td>20 个用户 · 14,948 记忆点 · 3,467 题</td><td><strong>最值得借鉴的结构：</strong>固定同一批用户与记忆点，靠高质量干扰内容从 160K 拉到 1M。</td></tr>
+    <tr><td><strong>BEAM</strong></td><td><strong>128K / 500K / 1M / 10M</strong> 四档</td><td>100 段对话 · 2,000 题</td><td>10M 适合看极限退化，但全量跑一遍开销极大；v0.1 先取 <strong>160K 主战 + 512K–1M 压测</strong>更务实。</td></tr>
+    <tr><td><strong>REALTALK</strong></td><td>21 天真实人类即时通讯记录</td><td>10 段 21 天真人对话</td><td>体量不大，但证明了<strong>真实聊天噪音、短句碎聊与日常节奏</strong>与合成问答完全不同。</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="provenance">
+  <p class="eyebrow">02 / PROVENANCE MAPPING</p>
+  <h2>十套参考工作 → 本设计的精确落点</h2>
+  <p>复用第三方数据或扩展对比前，须严格核对原仓库许可证、隐私条款与访问条件。</p>
+  <div class="table-wrap"><table><thead><tr><th scope="col">参考工作</th><th scope="col">借鉴的核心设计</th><th scope="col">在本设计里的具体体现位置</th><th scope="col">我们另外补上了什么</th></tr></thead><tbody>
+    <tr><td><strong>LoCoMo</strong><br><small><a href="https://github.com/MemTensor/OmniMemEval/blob/8d1ff33904abccbcdef9363cf8ae82fc97574b26/docs/user_memory/results.md">OmniMemEval 汇编</a></small></td><td>多会话跨度组织；Single-Hop / Multi-Hop / Temporal 事实与时间串联</td><td>落在 <a href="design.html#schema"><code>sessions</code></a> 跨天时间流与 <code>共同经历</code> 维度的多跳事件检验</td><td>从“第三方八卦问答”转向“你和我之间发生了什么”的主体归属校验</td></tr>
+    <tr><td><strong>LongMemEval</strong><br><small><a href="https://github.com/MemTensor/OmniMemEval/blob/8d1ff33904abccbcdef9363cf8ae82fc97574b26/docs/user_memory/results.md">OmniMemEval 汇编</a></small></td><td>区分 <code>SS-User</code> / <code>SS-Asst</code>（记用户的话也记助手自己的承诺）与 <code>Knowledge Update</code></td><td>落在 <code>visible_evidence</code> 的说话主体区分与 <code>conditional_update</code> 探针（如 CP-2 改期吃药）</td><td>加上对“伴侣自身人格口吻是否随更新保持一致”的检查</td></tr>
+    <tr><td><strong>BEAM</strong><br><small><a href="https://github.com/MemTensor/OmniMemEval/blob/8d1ff33904abccbcdef9363cf8ae82fc97574b26/docs/user_memory/results.md">OmniMemEval 汇编</a></small></td><td>长历史梯度分层；把复杂回答拆成原子得分点的 Nugget 思想；检索耗时 p50/p95</td><td>落在 <a href="design.html#scale"><code>scale_tier (S/M/L)</code></a> 分档、<code>must_satisfy / forbidden</code> 要点清单与 <a href="protocol.html#efficiency">延迟账本</a></td><td>新增 <code>Tier S</code> 保证完整历史 baseline 同场对照，不靠超长历史回避对比</td></tr>
+    <tr><td><strong>HaluMem</strong><br><small><a href="https://github.com/MemTensor/OmniMemEval/blob/8d1ff33904abccbcdef9363cf8ae82fc97574b26/docs/user_memory/results.md">OmniMemEval 汇编</a></small></td><td><code>Memory Boundary</code>（未知承认）、<code>Memory Conflict</code> 与固定用户灌入噪音扩长度方法</td><td>落在 <code>记忆边界</code> 维度、<code>distractor_profile</code> 扩档机制与 0 分编造惩戒</td><td>把“编造不存在的伴侣童年”和“串用用户经历”纳入重点边界失败模式</td></tr>
+    <tr><td><strong>PersonaMem v2</strong><br><small><a href="https://github.com/MemTensor/OmniMemEval/blob/8d1ff33904abccbcdef9363cf8ae82fc97574b26/docs/user_memory/results.md">OmniMemEval 汇编</a></small></td><td>从复述偏好转为“按偏好做选择”；反刻板印象与“要求遗忘”遵从</td><td>落在 <code>理解用户</code>（带条件与反刻板印象偏好）及 <code>forget_request</code> / <code>forget_compliance</code>（如 CP-3）</td><td>从固定选择题改为开放自然对话评分，检查拒绝使用撤回信息时是否仍像伴侣</td></tr>
+    <tr><td><a href="https://arxiv.org/abs/2412.11912"><strong>CharacterBench</strong></a><br><small><a href="https://github.com/thu-coai/CharacterBench">GitHub</a></small></td><td>属性一致性、行为一致性、记忆一致性、Human-likeness 与互动性</td><td>落在 <code>companion_persona</code> 角色卡结构与 <code>人格连续性</code> 维度的盲评判据</td><td>补上经历 <code>context_compaction</code> 与 <code>service_restart</code> 后的长期连续性检验</td></tr>
+    <tr><td><a href="https://arxiv.org/abs/2502.13270"><strong>REALTALK</strong></a><br><small><a href="https://github.com/danny911kr/REALTALK">GitHub</a></small></td><td>21 天真人日常聊天、Memory Probing 与对“过度共情 / 人物趋同”的诊断</td><td>落在 <code>自然回忆</code> 与 <code>人格连续性</code> 中对“拒绝模板客服/心理医生腔”的 <code>forbidden</code> 约束</td><td>扩展到包含双方共同梗、约定演变与显式反事实校验</td></tr>
+    <tr><td><a href="https://arxiv.org/abs/2601.04745"><strong>KnowMe-Bench</strong></a><br><small><a href="https://huggingface.co/datasets/realty2333/knowMe-Bench">Dataset</a></small></td><td>从表层事实推进到结合多段经历理解用户动机与行为原则</td><td>落在 <code>理解用户</code> 维度的深层推断检查点与 <code>关系发展</code> 的可解释演变</td><td>严格禁止系统读取隐藏内心独白，只能从 <code>sessions</code> 可观察交互中推断</td></tr>
+    <tr><td><a href="https://arxiv.org/abs/2407.18416"><strong>PersonaGym</strong></a></td><td>分情境行为评估与清晰的 0–4 分分级行为锚点写法</td><td>落在 <a href="protocol.html#scoring">通用 0–4 分锚点</a> 与每道题 <code>score_anchors</code> 字段结构</td><td>把静态人设评分扩展到允许“基于共同经历的有依据演化”</td></tr>
+    <tr><td><a href="https://arxiv.org/abs/2602.01885"><strong>ES-MemEval</strong></a> · <a href="https://arxiv.org/abs/2605.27240"><strong>ENPMR-Bench</strong></a></td><td>No-Mem / Full-Hist / RAG 同场对照；按当前语境需要主动选记忆（而非字面相似）</td><td>落在 <a href="protocol.html#baselines">四组必需对照</a> 与 <code>自然回忆</code>（含 <code>no_recall_control</code> 对照题与配对反事实）</td><td>剥离专业心理辅导语境，回归艾拉 / Neuro-sama 式的日常数字伴侣长期互动</td></tr>
+  </tbody></table></div>
+</section>
+
+<div class="pager">
+  <a href="protocol.html">← 上一篇：实验对照、评分与延迟</a>
+  <a href="index.html">回到序章：理念与雷达图 →</a>
+</div>
+
+<footer>Companion Memory · 正文 03（参考规模与溯源 v0.1） · <a href="#main">返回顶部</a></footer>
+</main></div>
+</body>
+</html>

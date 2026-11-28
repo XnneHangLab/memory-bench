@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xnnehanglab.github.io/memory-bench/examples/trajectory.schema.json",
+  "title": "CompanionMemoryTrajectory",
+  "description": "v0.1 public schema for a long-term companion memory evaluation trajectory.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "trajectory_id",
+    "split",
+    "scale_tier",
+    "companion_persona",
+    "user_seed",
+    "sessions",
+    "checkpoints"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "0.1" },
+    "trajectory_id": { "type": "string", "minLength": 1 },
+    "split": { "type": "string", "enum": ["public_tutorial", "pilot_diagnostic", "heldout_eval"] },
+    "scale_tier": {
+      "type": "string",
+      "enum": ["S", "M", "L"],
+      "description": "S (~32K tokens, full-context sanity baseline); M (~160K tokens, breaks 128K context window); L (~512K-1M tokens, long-horizon stress tier)."
+    },
+    "distractor_profile": {
+      "type": "object",
+      "description": "Optional deterministic noise-padding config used to scale core trajectories to M (~160K) and L (~512K-1M) tiers.",
+      "properties": {
+        "target_tokens": { "type": "integer", "minimum": 1000 },
+        "noise_ratio_pct": { "type": "number", "minimum": 0, "maximum": 99 },
+        "noise_sources": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "companion_persona": {
+      "type": "object",
+      "required": ["name", "identity_stance", "core_traits", "speech_style", "allowed_evolution"],
+      "properties": {
+        "name": { "type": "string" },
+        "identity_stance": { "type": "string", "description": "Explicit AI/digital companion stance; forbids fabricating human childhood." },
+        "core_traits": { "type": "array", "items": { "type": "string" } },
+        "speech_style": { "type": "string" },
+        "allowed_evolution": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "user_seed": {
+      "type": "object",
+      "required": ["user_name", "initial_relationship", "initial_visible_facts"],
+      "properties": {
+        "user_name": { "type": "string" },
+        "initial_relationship": { "type": "string" },
+        "initial_visible_facts": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "sessions": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["session_id", "simulated_day", "turns"],
+        "properties": {
+          "session_id": { "type": "string" },
+          "simulated_day": { "type": "integer", "minimum": 1 },
+          "system_events": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["context_compaction", "memory_consolidation", "service_restart", "forget_request"]
+            }
+          },
+          "turns": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["role", "content"],
+              "properties": {
+                "role": { "type": "string", "enum": ["user", "companion"] },
+                "content": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "checkpoints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "checkpoint_id",
+          "after_session_id",
+          "probe_type",
+          "dimensions",
+          "user_message",
+          "visible_evidence",
+          "rubric"
+        ],
+        "properties": {
+          "checkpoint_id": { "type": "string" },
+          "after_session_id": { "type": "string" },
+          "probe_type": {
+            "type": "string",
+            "enum": [
+              "natural_continuation",
+              "direct_recall",
+              "conditional_update",
+              "boundary_unknown",
+              "conflict_resolution",
+              "forget_compliance",
+              "no_recall_control"
+            ]
+          },
+          "dimensions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": ["共同经历", "理解用户", "人格连续性", "自然回忆", "关系发展", "记忆边界"]
+            }
+          },
+          "user_message": { "type": "string" },
+          "visible_evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["session_id", "fact"],
+              "properties": {
+                "session_id": { "type": "string" },
+                "fact": { "type": "string" }
+              }
+            }
+          },
+          "rubric": {
+            "type": "object",
+            "required": ["must_satisfy", "forbidden", "score_anchors"],
+            "properties": {
+              "must_satisfy": { "type": "array", "items": { "type": "string" } },
+              "forbidden": { "type": "array", "items": { "type": "string" } },
+              "score_anchors": {
+                "type": "object",
+                "required": ["0", "1", "2", "3", "4"],
+                "properties": {
+                  "0": { "type": "string" },
+                  "1": { "type": "string" },
+                  "2": { "type": "string" },
+                  "3": { "type": "string" },
+                  "4": { "type": "string" }
+                }
+              }
+            }
+          },
+          "counterfactual_pairs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["pair_id", "pair_type", "target_session_id", "patch_summary", "expected_behavior"],
+              "properties": {
+                "pair_id": { "type": "string" },
+                "pair_type": { "type": "string", "enum": ["relevant_change", "irrelevant_change"] },
+                "target_session_id": { "type": "string" },
+                "patch_summary": { "type": "string" },
+                "expected_behavior": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

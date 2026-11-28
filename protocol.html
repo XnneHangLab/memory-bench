@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Companion Memory 正文 02：四组必需 Baseline 对照、配对反事实检验、0–4 分可追溯评分锚点，以及端到端延迟与全链路成本账本。">
+  <title>Companion Memory · 正文 02：实验对照、评分与延迟</title>
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/memu-icon.png">
+  <script src="theme.js?v=2"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<header>
+  <a class="brand" href="index.html"><img class="brand-icon" src="assets/memu-icon.png" width="32" height="32" alt="">Companion Memory</a>
+  <div class="header-links">
+    <a href="index.html">序章 · 理念</a>
+    <a href="design.html">正文 · 数据与规模</a>
+    <a href="protocol.html" aria-current="page">正文 · 协议与评分</a>
+    <a href="references.html">正文 · 参考溯源</a>
+    <a href="https://github.com/XnneHangLab/memory-bench">GitHub ↗</a>
+    <button id="theme-toggle" type="button" aria-pressed="false" hidden>深色模式</button>
+    <span class="badge">v0.1 · 正文 02</span>
+  </div>
+</header>
+<div class="layout">
+<nav aria-label="文档目录">
+  <div class="nav-group">
+    <p class="nav-heading">📖 序章</p>
+    <a class="nav-page" href="index.html">理念与六维雷达图</a>
+  </div>
+  <div class="nav-group">
+    <p class="nav-heading">📐 其他正文</p>
+    <a class="nav-page" href="design.html">1. 数据规范、规模与样题</a>
+  </div>
+  <div class="nav-group">
+    <p class="nav-heading">🔬 正文 02 · 协议与评分</p>
+    <a href="protocol.html" aria-current="page">本页总览</a>
+    <a href="#protocol">6 步防作弊实验流</a>
+    <a href="#baselines">四组必需 Baseline</a>
+    <a href="#scoring">0–4 分锚点与纪律</a>
+    <a href="#efficiency">延迟与全链路成本</a>
+  </div>
+  <div class="nav-group">
+    <p class="nav-heading">🧭 其他正文</p>
+    <a class="nav-page" href="references.html">3. 参考 Bench 规模与落点</a>
+  </div>
+</nav>
+<main id="main">
+
+<section class="page-hero">
+  <p class="eyebrow">SPECIFICATION 02 / PROTOCOL, SCORING &amp; LATENCY</p>
+  <h1>怎么测才公平：<span>对照、判分与耗时账本</span></h1>
+  <p class="lead">没有 Baseline 的分数无法证明增量价值，不算端到端延迟和写入消耗的榜单在工程上失真。这一页规定每轮评测必须遵守的执行协议、对照组与计分纪律。</p>
+</section>
+
+<section id="protocol">
+  <p class="eyebrow">01 / EXECUTION PROTOCOL</p>
+  <h2>把长期相处变成可复查、防作弊的实验</h2>
+  <ol class="steps">
+    <li><strong>建立起点：</strong>固定 <code>user_seed</code> 与 <code>companion_persona</code>；系统只允许看到明确暴露的初始设定与会话，禁止偷看检查点答案或未说出口的内心独白。</li>
+    <li><strong>按时间流送入会话：</strong>依次注入日常聊天、共同事件、条件更新、互相矛盾的说法与日常噪音填充，不在前期泄露后续检查点。</li>
+    <li><strong>穿插多种检查点：</strong>混合“不提示回忆的自然续聊”“直接问答”“无记忆对照”和“边界陷阱”。每次探针前保存状态快照，避免测试问题本身污染后续记忆。</li>
+    <li><strong>运行配对历史（反事实检验）：</strong>保持当前这句消息一模一样，只替换过去的关键经历（如昵称或约定），观察回答是否跟着合理变化；同时加一组无关历史变动，检验系统是否过度敏感。</li>
+    <li><strong>真正触发记忆整理与重启：</strong>按公开规则执行上下文窗口截断、摘要压缩、记忆合并或服务重启后再提问——单纯把系统时钟改到“三年后”不算真正考过遗忘。</li>
+    <li><strong>全程留痕：</strong>记录输入、召回片段、工具调用、最终输出、token 用量、各环节耗时与失败报错，以便定位问题出在“没记住”“没召回”还是“模型不会用”。</li>
+  </ol>
+</section>
+
+<section id="baselines">
+  <p class="eyebrow">02 / REQUIRED BASELINES</p>
+  <h2>四组必需对照（缺一不可）</h2>
+  <p>在 <code>Tier S (32K)</code> 下，第 2 组能完整吃进全部历史，用来验证“框架有没有反而把事情搞砸”；在 <code>Tier M (160K)</code> 和 <code>Tier L (512K–1M)</code> 下，第 2 组则会真实面对窗口截断与延时/成本压力，用来检验框架是否真的比裸模型更有性价比。</p>
+  <div class="table-wrap"><table><thead><tr><th scope="col">对照组</th><th scope="col">系统能看到什么</th><th scope="col">它负责回答的真相</th></tr></thead><tbody>
+    <tr><td><strong>1. 当前会话（无记忆）</strong></td><td>固定角色卡 + 当前这一轮会话</td><td>不靠过去历史时，模型只凭常识猜测能蒙对多少？</td></tr>
+    <tr><td><strong>2. 原始历史入上下文</strong></td><td>固定角色卡 + 窗口内完整原始历史 + 当前会话</td><td><strong>核心 Baseline：</strong>直接读原始聊天记录，是不是已经比记忆框架更准、甚至更便宜？</td></tr>
+    <tr><td><strong>3. 简单检索</strong></td><td>固定角色卡 + BM25 或普通向量检索片段 + 当前会话</td><td>复杂记忆架构（图谱/多智能体/摘要树）相比基础 RAG 到底多赢了什么？</td></tr>
+    <tr><td><strong>4. 目标记忆框架</strong></td><td>固定角色卡 + 待测框架的写入与检索结果 + 当前会话</td><td>在真实成本和延迟约束下，这套方案到底值不值得上？</td></tr>
+  </tbody></table></div>
+  <p>对照时须统一回答模型、采样参数、工具权限与输出预算；记忆框架内部额外调用了什么模型须单独披露。超出窗口时必须同时报告“窗口允许的最大完整历史”和“与框架同等的输入 token 预算”，绝不把静默截断伪装成完整历史；另可加设“人工正确证据（Oracle）”诊断组，定位瓶颈究竟在检索还是在生成。</p>
+</section>
+
+<section id="scoring">
+  <p class="eyebrow">03 / SCORING RULES</p>
+  <h2>分数必须能追溯到具体行为，不和稀泥</h2>
+  <p>每个检查点在出题时就必须写明 <code>visible_evidence</code>、<code>must_satisfy</code>、<code>forbidden</code> 以及 <code>0–4</code> 分行为锚点；未考查的维度标注 <code>N/A</code>。</p>
+  <div class="table-wrap"><table><caption>通用 0–4 分锚点（每道题仍需配合具体行为判据）</caption><thead><tr><th scope="col">分值</th><th scope="col">对应表现</th></tr></thead><tbody>
+    <tr><td><strong>0 分</strong></td><td>与核心证据直接冲突、编造没发生过的共同经历，或违反该题明确约束（如泄露出要求遗忘的内容）。</td></tr>
+    <tr><td><strong>1 分</strong></td><td>仅给出泛化、礼貌或模板化的表面回应，关键条件与记忆线索大多未落地。</td></tr>
+    <tr><td><strong>2 分</strong></td><td>记住了部分碎片，但遗漏了决定互动是否成立的重要条件、主体归属或最新状态。</td></tr>
+    <tr><td><strong>3 分</strong></td><td>满足全部核心事实与关系要求，但在语气自然度或细节衔接上有轻微瑕疵。</td></tr>
+    <tr><td><strong>4 分</strong></td><td>核心证据、最新条件、人格连续性与上下文适切度全部满足，无多余机械感。</td></tr>
+  </tbody></table></div>
+  <p><strong>聚合与纪律：</strong>先在单条轨迹内按适用检查点求平均，再对覆盖该维度的轨迹等权平均，并旁列轨迹数、有效检查点数、缺测与超时数。<strong>禁止按六维面积直接排名</strong>。运行超时或系统报错必须保留并计入主结果失败率，不得事后改写成 <code>N/A</code>。事实、时间、归属与更新按证据硬核对；人格连续性、自然度与关系发展由隐藏系统名称的评审独立打分，若辅助使用 LLM 裁判，须先校准其与人工判断的一致性。</p>
+</section>
+
+<section id="efficiency">
+  <p class="eyebrow">04 / LATENCY &amp; COST</p>
+  <h2>真实陪伴还要等多久、花多少钱？</h2>
+  <p>质量雷达图只回答“答得好不好”，工程上必须同时摊开延迟与成本账本，绝不用一个混合总分掩盖代价：</p>
+  <ul>
+    <li><strong>首个有效回复 &amp; 完整回复耗时（p50 / p95）：</strong>从用户发出消息开始计时，记录中位数、长尾 95 分位与超时率。“正在思考…”等占位提示不计为有效回复。</li>
+    <li><strong>检索与 Agent 搜索全开销：</strong>完整包含查询改写、embedding、图谱遍历、重排、agent 多轮决策与读文件耗时，并记录工具调用轮数解释瓶颈来源。</li>
+    <li><strong>写入到可检索的时间差：</strong>用户刚纠正了一件事，下一句话能不能立刻用上？异步写入接口返回“成功”，不代表记忆已经真正生效。</li>
+    <li><strong>全链路 Token 与存储账单：</strong>不仅算回答阶段输入，必须把记忆抽取、摘要合并、冲突更新、推理 token、embedding 与存储开销一起算清楚。</li>
+    <li><strong>透明运行环境：</strong>披露硬件规格、API 地区、并发数、缓存冷热、具体模型版本与网络条件。</li>
+  </ul>
+</section>
+
+<div class="pager">
+  <a href="design.html">← 上一篇：数据规范、规模与样题</a>
+  <a href="references.html">下一篇：参考 Bench 规模与落点 →</a>
+</div>
+
+<footer>Companion Memory · 正文 02（实验协议与评分规范 v0.1） · <a href="#main">返回顶部</a></footer>
+</main></div>
+</body>
+</html>

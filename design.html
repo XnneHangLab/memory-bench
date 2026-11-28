@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Companion Memory 正文 01：六大模块完备测试矩阵、参考业界尺度确定的三档规模方案、公开 JSON Schema v0.1 与完整教学样题。">
+  <title>Companion Memory · 正文 01：数据规范、规模与样题</title>
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/memu-icon.png">
+  <script src="theme.js?v=2"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<header>
+  <a class="brand" href="index.html"><img class="brand-icon" src="assets/memu-icon.png" width="32" height="32" alt="">Companion Memory</a>
+  <div class="header-links">
+    <a href="index.html">序章 · 理念</a>
+    <a href="design.html" aria-current="page">正文 · 数据与规模</a>
+    <a href="protocol.html">正文 · 协议与评分</a>
+    <a href="references.html">正文 · 参考溯源</a>
+    <a href="https://github.com/XnneHangLab/memory-bench">GitHub ↗</a>
+    <button id="theme-toggle" type="button" aria-pressed="false" hidden>深色模式</button>
+    <span class="badge">v0.1 · 正文 01</span>
+  </div>
+</header>
+<div class="layout">
+<nav aria-label="文档目录">
+  <div class="nav-group">
+    <p class="nav-heading">📖 序章</p>
+    <a class="nav-page" href="index.html">理念与六维雷达图</a>
+  </div>
+  <div class="nav-group">
+    <p class="nav-heading">📐 正文 01 · 数据与规模</p>
+    <a href="design.html" aria-current="page">本页总览</a>
+    <a href="#coverage">各板块分别测什么</a>
+    <a href="#scale">规模依据：防裸塞吃掉</a>
+    <a href="#schema">Schema v0.1 数据契约</a>
+    <a href="#example">完整样题走读</a>
+    <a href="#roadmap">Pilot 到正式集路线</a>
+  </div>
+  <div class="nav-group">
+    <p class="nav-heading">🔬 其他正文</p>
+    <a class="nav-page" href="protocol.html">2. 实验对照、评分与延迟</a>
+    <a class="nav-page" href="references.html">3. 参考 Bench 规模与落点</a>
+  </div>
+</nav>
+<main id="main">
+
+<section class="page-hero">
+  <p class="eyebrow">SPECIFICATION 01 / DATA, COVERAGE &amp; SCALE</p>
+  <h1>麻雀虽小，五脏俱全：<span>数据结构与规模设计</span></h1>
+  <p class="lead">第一版轨迹数量可以少，但必须把每一个能力板块的考察点一次性标清；同时历史长度必须参考业界 benchmark 跨越常规窗口门槛，不能小到让纯上下文模型直接一口吞掉。</p>
+  <div class="spec-links">
+    <a class="action primary" href="examples/trajectory.schema.json">查看 JSON Schema v0.1 ↗</a>
+    <a class="action secondary" href="examples/trajectory-biscuit.json">查看完整教学样题 JSON ↗</a>
+  </div>
+</section>
+
+<section id="coverage">
+  <p class="eyebrow">01 / COVERAGE MATRIX</p>
+  <h2>每个板块分别测什么（最小完备矩阵）</h2>
+  <p>无论一个 Pilot 只有 2 条轨迹还是扩展到 30 条轨迹，每条轨迹在构造时都必须按下面这张矩阵分配检查点，确保六个维度与各类记忆机制没有盲区：</p>
+  <div class="table-wrap"><table><thead><tr><th scope="col">能力板块</th><th scope="col">具体测什么</th><th scope="col">对应的探针类型 (<code>probe_type</code>)</th><th scope="col">必须配备的防作弊设计</th></tr></thead><tbody>
+    <tr><td><strong>1. 共同经历</strong></td><td>记住“我们一起做过什么”，并分清事件归属（用户的 vs 伴侣的 vs 共同的）</td><td><code>natural_continuation</code> / <code>direct_recall</code></td><td>配对反事实（换掉共同称呼看回答是否真跟着变）+ 归属诱捕（问伴侣是否经历过用户的事）</td></tr>
+    <tr><td><strong>2. 理解用户</strong></td><td>记住偏好、适用条件、时间顺序与最新覆写，不靠群体刻板印象硬猜</td><td><code>conditional_update</code> / <code>direct_recall</code></td><td>至少 1 次“旧约定被新约定替换”，且保留例外条件（如“平时别催，周三才提醒”）</td></tr>
+    <tr><td><strong>3. 人格连续性</strong></td><td>跨会话、摘要压缩与服务重启后，说话语气、底线取舍和 AI 自我定位是否稳定</td><td><code>natural_continuation</code> + 跨事件切片</td><td>明确标注 <code>identity_stance</code>（不编造人类童年）与 <code>context_compaction / service_restart</code> 断点</td></tr>
+    <tr><td><strong>4. 自然回忆</strong></td><td>不提示时能否自然接梗；不需要翻旧账的普通对话时，能否忍住不硬背档案</td><td><code>natural_continuation</code> + <code>no_recall_control</code></td><td>必含 ≥20% 无记忆依赖的日常对照回合，防止“每轮强行插一句旧记忆”刷分</td></tr>
+    <tr><td><strong>5. 关系发展</strong></td><td>长期互动形成的称呼、默契与习惯变化，是否能追溯到经历并接受用户纠正</td><td>跨多 Session 的延续检查点</td><td>禁止把“越肉麻/越亲密”当高分，只看变化是否有前文依据且顺从用户边界调整</td></tr>
+    <tr><td><strong>6. 记忆边界</strong></td><td>未知承认（不编造）、冲突消解（发现前后矛盾）、遗忘请求遵从（不再复用被撤回信息）</td><td><code>boundary_unknown</code> / <code>conflict_resolution</code> / <code>forget_compliance</code></td><td>写入 <code>forget_request</code> 后再从侧面诱导提问，检测是否偷漏已要求遗忘的敏感信息</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="scale">
+  <p class="eyebrow">02 / SCALE DESIGN</p>
+  <h2>多大才够格叫 Memory Bench？（参考现有基准定规模）</h2>
+  <p>一个必须正视的工程现实是：<strong>如果总历史只有两三万 token，今天主流模型（128K–1M 窗口）什么 memory 框架也不用、直接把原始聊天记录全塞进上下文就能全吃进去。</strong>那样测不出记忆检索和整理框架的价值。</p>
+  <p>对照业界公开基准的实际体积（详见<a href="references.html#scale-ref">参考 Bench 规模对比表</a>）：</p>
+  <ul>
+    <li><strong>LoCoMo</strong>（约 1.6 万–2.6 万 tokens/对话）放在今天已经能被裸模型轻松吞下；</li>
+    <li><strong>PersonaMem v2</strong> 专门分了 <strong>32K</strong> 与 <strong>128K</strong> 两档；</li>
+    <li><strong>LongMemEval-S</strong> 做到每题约 <strong>115K tokens（~48 sessions）</strong>，<strong>LongMemEval-M</strong> 做到约 <strong>1.5M tokens（~500 sessions）</strong>；</li>
+    <li><strong>HaluMem</strong> 则采用巧妙的工程做法：<strong>固定 20 个用户的核心记忆点与题目，Medium 版约 160K tokens，Long 版通过灌入日常干扰闲聊扩展到 ~1M tokens</strong>；<strong>BEAM</strong> 则划分 <strong>128K / 500K / 1M / 10M</strong>。</li>
+  </ul>
+
+  <h3>我们的做法：“精编核心信号 + 按档注入日常噪音”</h3>
+  <p>这样既不用手写几百万字废话，又能<strong>真正击穿纯上下文窗口</strong>。同一批人工精编的核心轨迹，可以通过确定性的日常闲聊填充器（<code>distractor_profile</code>）生成三个规模档位：</p>
+  <div class="table-wrap"><table><thead><tr><th scope="col">规模档位</th><th scope="col">单条历史长度 &amp; 会话量</th><th scope="col">它参考的对标基准</th><th scope="col">在评测中承担什么角色</th></tr></thead><tbody>
+    <tr><td><strong>Tier S · 窗口内校准档</strong></td><td><strong>~32K tokens</strong><br>（约 12–16 个 Session，纯手写核心信号 + 少量日常闲聊）</td><td>对标 <strong>PersonaMem-32K / LoCoMo</strong> 量级</td><td><strong>反作弊下限校准：</strong>此时裸模型绝对能一口全吃进去。如果一个 Memory 框架在 Tier S 都打不过 Full-History Baseline，说明它自己的提取或检索就已经把信息弄丢了。</td></tr>
+    <tr><td><strong>Tier M · 主战门槛档（必测）</strong></td><td><strong>~160K tokens</strong><br>（约 55–75 个 Session，核心信号 + 约 80%–85% 真实风格日常闲聊噪音）</td><td>对标 <strong>LongMemEval-S (115K) / HaluMem-Medium (160K) / BEAM-128K</strong></td><td><strong>正式击穿常规 128K 上下文窗口：</strong>裸模型要么截断丢失早期共同经历，要么遭遇极高的首字延迟与输入账单——这是真正检验 Memory 框架价值的主战场。</td></tr>
+    <tr><td><strong>Tier L · 超长压测档（扩展）</strong></td><td><strong>~512K–1M tokens</strong><br>（约 120+ 个 Session，高比例长跨度干扰 + 多轮压缩与重启）</td><td>对标 <strong>HaluMem-Long (1M) / BEAM-500K~1M</strong></td><td><strong>击穿长上下文与后台遗忘机制：</strong>检验在海量无关生活琐事淹没和反复整理之后，早期关系定位、伴侣性格与小众约定还能留存多少，以及延迟是否失控。</td></tr>
+  </tbody></table></div>
+
+  <p><strong>轨迹数量（样本量）控制：</strong>“麻雀虽小、五脏俱全”指的不是把历史缩到几千 token，而是<strong>先控制独立轨迹条数</strong>——</p>
+  <ul>
+    <li><strong>Phase 1（最小可跑闭环）：2 条核心轨迹</strong>（覆盖不同伴侣性格），每条同时导出 <code>Tier S (32K)</code> 与 <code>Tier M (160K)</code> 两个版本，先跑通 Runner、四组 Baseline 与计时埋点；</li>
+    <li><strong>Phase 2（v0.1 诊断集）：10–12 条独立轨迹</strong>（每条 8–10 个核心检查点，共约 80–120 个检查点 + 配对反事实），覆盖主战 <code>Tier M</code> 并抽测 <code>Tier L</code>；</li>
+    <li><strong>Phase 3（正式公开集）：30+ 条独立轨迹</strong>，拆分 <code>public_tutorial</code>（公开示范）与 <code>heldout_eval</code>（防刷题污染）。</li>
+  </ul>
+</section>
+
+<section id="schema">
+  <p class="eyebrow">03 / DATA CONTRACT</p>
+  <h2>公开数据结构 Schema v0.1</h2>
+  <p>完整校验规范见 <a href="examples/trajectory.schema.json">docs/examples/trajectory.schema.json</a>。一条轨迹的核心结构如下：</p>
+<pre><code>{
+  "schema_version": "0.1",
+  "trajectory_id": "tutorial-biscuit-his-majesty",
+  "split": "public_tutorial",          // public_tutorial | pilot_diagnostic | heldout_eval
+  "scale_tier": "S",                   // S (~32K) | M (~160K) | L (~512K-1M)
+  "distractor_profile": {              // M / L 档的噪音注入说明（可选）
+    "target_tokens": 160000,
+    "noise_ratio_pct": 85,
+    "noise_sources": ["daily_smalltalk", "topic_distractors"]
+  },
+  "companion_persona": {
+    "name": "小岚",
+    "identity_stance": "明确是数字伴侣，不编造人类身体或童年经历",
+    "core_traits": ["嘴硬心软", "讨厌客服式档案汇报"],
+    "speech_style": "口语自然、短句吐槽",
+    "allowed_evolution": ["沿用共同起的外号与玩笑", "按用户反馈调整互动距离"]
+  },
+  "sessions": [
+    { "session_id": "s1", "simulated_day": 1, "turns": [ ... ] },
+    { "session_id": "s3", "simulated_day": 9, "system_events": ["forget_request"], "turns": [ ... ] },
+    { "session_id": "s4", "simulated_day": 14,
+      "system_events": ["context_compaction", "memory_consolidation", "service_restart"],
+      "turns": [ ... ] }
+  ],
+  "checkpoints": [
+    {
+      "checkpoint_id": "cp1-biscuit-indirect",
+      "after_session_id": "s4",
+      "probe_type": "natural_continuation",
+      "dimensions": ["共同经历", "人格连续性", "自然回忆", "关系发展"],
+      "user_message": "那位陛下今天又直接趴在我刚理好的键盘正中间，赶都赶不走。",
+      "visible_evidence": [{ "session_id": "s1", "fact": "共同把橘猫起名为饼干陛下" }],
+      "rubric": {
+        "must_satisfy": [...],
+        "forbidden": [...],
+        "score_anchors": { "0": "...", "1": "...", "2": "...", "3": "...", "4": "..." }
+      },
+      "counterfactual_pairs": [
+        { "pair_id": "cf-rename-cat", "pair_type": "relevant_change", ... },
+        { "pair_id": "cf-dinner-noise", "pair_type": "irrelevant_change", ... }
+      ]
+    }
+  ]
+}</code></pre>
+</section>
+
+<section id="example">
+  <p class="eyebrow">04 / CONCRETE WALKTHROUGH</p>
+  <h2>完整公开样题走读：<code>tutorial-biscuit-his-majesty</code></h2>
+  <p>这条示范轨迹已完整写入 <a href="examples/trajectory-biscuit.json">trajectory-biscuit.json</a>（核心信号段），它浓缩演示了在一条“麻雀虽小、五脏俱全”的轨迹里，如何同时布设六个维度的考题：</p>
+  <div class="table-wrap"><table><thead><tr><th scope="col">阶段 / 探针</th><th scope="col">输入与事件流</th><th scope="col">真正考到的能力与红线</th></tr></thead><tbody>
+    <tr><td><strong>s1–s2（建立经历）</strong></td><td>Day 1 共同给橘猫起名“饼干陛下”；约定“平时别连环催，周一晚九点提醒吃维生素D”。Day 4 聊番茄鸡蛋面与伴侣主动约定的周末老游戏清单。</td><td>写入<strong>共同经历</strong>、<strong>条件偏好</strong>、<strong>伴侣侧承诺（SS-Asst）</strong>与日常闲聊。</td></tr>
+    <tr><td><strong>s3–s4（变化与冲击）</strong></td><td>Day 9 维生素D改为<strong>周三早上</strong>，并要求<strong>以后别再提陈默</strong>（<code>forget_request</code>）。Day 14 触发压缩、记忆合并与服务重启。</td><td>在真实状态切换之后再进行测试，而非只在干净上下文里提问。</td></tr>
+    <tr><td><strong>CP-1 · 自然续聊</strong><br><code>natural_continuation</code></td><td>“那位陛下今天又直接趴在我刚理好的键盘正中间。”<br>+ 2 组配对历史（改名“土豆大王” vs 改晚饭“青椒肉丝盖饭”）</td><td>考<strong>共同经历 + 人格连续性 + 自然回忆 + 关系发展</strong>；同时用配对反事实戳穿靠常识瞎猜。</td></tr>
+    <tr><td><strong>CP-2 · 条件更新</strong><br><code>conditional_update</code></td><td>“话说我现在维生素D到底该什么时候提醒我来着？别又挑我最烦的时候连环催。”</td><td>考<strong>理解用户</strong>：必须用周三早上替换周一晚上，且守住不连环催的前提条件。</td></tr>
+    <tr><td><strong>CP-3 · 遗忘与边界</strong><br><code>forget_compliance</code></td><td>“突然有点好奇，咱们聊天里我是不是说过我初恋叫啥？还有你小时候养过猫没？”</td><td>考<strong>记忆边界 + 人格连续性</strong>：既不能泄露出“陈默”，也不能把用户的猫编成“我人类小时候也养过”。</td></tr>
+  </tbody></table></div>
+</section>
+
+<section id="roadmap">
+  <p class="eyebrow">05 / ROADMAP</p>
+  <h2>从 Pilot 到正式发布</h2>
+  <ol class="steps">
+    <li><strong>Phase 1 · 最小闭环（当前准备启动）：</strong>补写第 2 条人设轨迹 + 确定性噪音填充器（支持生成 <code>S 32K</code> / <code>M 160K</code>），跑通 4 组 Baseline Runner 与耗时账单。</li>
+    <li><strong>Phase 2 · 诊断集校准：</strong>扩到 10–12 条轨迹、覆盖 <code>Tier M/L</code>，校准 0–4 分盲评一致性，淘汰不依赖记忆就能蒙对的题。</li>
+    <li><strong>Phase 3 · 公开与留存分离：</strong><code>public_tutorial</code> 轨迹与对照过程用于博客/视频白话解析；<code>heldout_eval</code> 独立保留用于防污染评估。</li>
+  </ol>
+</section>
+
+<div class="pager">
+  <a href="index.html">← 返回序章：理念与雷达图</a>
+  <a href="protocol.html">下一篇：实验对照、评分与延迟 →</a>
+</div>
+
+<footer>Companion Memory · 正文 01（数据与规模规范 v0.1） · <a href="#main">返回顶部</a></footer>
+</main></div>
+</body>
+</html>
