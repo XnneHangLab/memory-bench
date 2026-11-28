@@ -18,7 +18,11 @@ python -m http.server 8000 --directory docs
 
 ## 内容与状态
 
-- `docs/index.html`：动机、六维定义、试验协议、评分、参考研究与开放问题。
+- `docs/index.html`：序章（核心矛盾、四条底线与六维偏科雷达图）。
+- `docs/design.html`：正文 01（各板块完备矩阵、参考业界定出的三档规模方案、Schema v0.1 与完整样题走读）。
+- `docs/protocol.html`：正文 02（6 步实验协议、四组必需 Baseline、0–4 分锚点与延迟/全链路成本账本）。
+- `docs/references.html`：正文 03（10 套参考 Bench 的真实规模对照与本设计精确落点表）。
+- `docs/examples/`：[Schema v0.1](docs/examples/trajectory.schema.json) 与[公开教学样题](docs/examples/trajectory-biscuit.json)。
 - `docs/radar.js`：六维可交互示意图；数值是人工演示，不是实验结果。
 - `docs/assets/memu-icon.png`：复用 memU 文档站图标，用于页头和 favicon；[来源说明](docs/assets/NOTICE.txt)与[原许可文件](docs/assets/memu-LICENSE.txt)随附。
 - `scripts/check_site.py`：链接、图表维度与文档基本完整性检查。
